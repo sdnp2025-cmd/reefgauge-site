@@ -7,10 +7,9 @@
 <meta name="description" content="What ReefGauge keeps, what leaves the display, and who holds it for us.">
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap">
 <style>
+  @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 800; font-display: swap; src: url('assets/fonts/Outfit-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+  @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 800; font-display: swap; src: url('assets/fonts/Outfit-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
   :root { --ink: #10233a; --ink-2: #3e5570; --accent: #5b4bc4; --bg-a: #eef4fb; --bg-b: #dbe8f6; --bg-c: #e9e4f6; }
   * { box-sizing: border-box; }
   body {
@@ -45,7 +44,7 @@
   <h2>This website</h2>
   <ul>
     <li>It sets no cookies and runs no analytics or advertising.</li>
-    <li>The page loads its font from Google Fonts, so Google sees your IP address when the page loads. Our web host, currently GitHub, keeps ordinary server logs.</li>
+    <li>Its font is served from this site, so loading a page contacts no one else. Our web host, currently GitHub, keeps ordinary server logs.</li>
   </ul>
 
   <h2>The newsletter</h2>
@@ -74,7 +73,7 @@
       </ul>
       These requests carry the display's IP address and the release channel it follows, not your name or your readings.</li>
     <li><b>Checking for the internet.</b> The display checks it can reach the internet using a standard Google address, the same check phones and computers make.</li>
-    <li><b>Fonts.</b> The Raspberry Pi version's screen, and the pages your phone opens from either version, load a font from Google Fonts, so Google sees the IP address of the display or the phone.</li>
+    <li><b>Fonts.</b> The display and the pages your phone opens from it carry their own fonts. (Raspberry Pi software from before October 2026 loaded one from Google Fonts, so Google saw the display's or the phone's IP address; updating removes that.)</li>
     <li><b>Remote support, only when you start it.</b> A support session opens only when you choose it on the screen and give us the code. While it is open:
       <ul>
         <li>We can see the display's status, settings, current readings and recent log.</li>
@@ -102,7 +101,7 @@
     <li><b>Independent services the display or the site talk to, under their own privacy policies:</b>
       <ul>
         <li>Open-Meteo (weather and town search)</li>
-        <li>Google (fonts, the internet check and fish-store search)</li>
+        <li>Google (the internet check and fish-store search)</li>
         <li>the npm and Python package registries (Raspberry Pi updates)</li>
         <li>ntfy.sh (phone alerts, only if you turn them on)</li>
         <li>Anthropic (Claude, during a support session)</li>
