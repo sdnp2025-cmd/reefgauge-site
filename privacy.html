@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy — ReefGauge</title>
+<meta name="description" content="What ReefGauge keeps, what leaves the display, and who holds it for us.">
+<link rel="icon" href="assets/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap">
+<style>
+  :root { --ink: #10233a; --ink-2: #3e5570; --accent: #5b4bc4; --bg-a: #eef4fb; --bg-b: #dbe8f6; --bg-c: #e9e4f6; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; color: var(--ink);
+    font-family: 'Outfit', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 17px; line-height: 1.6;
+    background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%) fixed;
+  }
+  a { color: var(--accent); }
+  main { max-width: 760px; margin: 0 auto; padding: 22px 22px 60px; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); font-weight: 800; font-size: 20px; }
+  .brand img { width: 40px; height: 40px; border-radius: 9px; }
+  h1 { font-size: clamp(32px, 5vw, 44px); font-weight: 800; letter-spacing: -.015em; margin: 28px 0 6px; line-height: 1.1; }
+  h2 { font-size: 22px; font-weight: 800; margin: 34px 0 8px; }
+  p, li { color: var(--ink-2); }
+  ul { padding-left: 22px; display: grid; gap: 6px; }
+  .card { background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.9); border-radius: 18px; padding: 18px 22px; margin-top: 18px; }
+  .card p { margin: 0; }
+  footer { margin-top: 40px; font-size: 14px; color: var(--ink-2); }
+</style>
+</head>
+<body>
+<main>
+  <a class="brand" href="./"><img src="assets/icon.png" alt="" width="40" height="40"> ReefGauge</a>
+
+  <h1>Privacy</h1>
+  <p>Effective 14 October 2026.</p>
+
+  <div class="card">
+    <p><b>The short version.</b> Your tank's readings stay on your own network unless you start a support session or turn on phone alerts. To register a display we keep your name, email and phone so we can support it, and those go only to our own server and our office computer. We never sell anything. Everything that leaves the display, and who receives it, is listed below.</p>
+  </div>
+
+  <h2>This website</h2>
+  <ul>
+    <li>It sets no cookies and runs no analytics or advertising.</li>
+    <li>The page loads its font from Google Fonts, so Google sees your IP address when the page loads. Our web host, currently GitHub, keeps ordinary server logs.</li>
+  </ul>
+
+  <h2>The newsletter</h2>
+  <ul>
+    <li>If you sign up, <a href="https://buttondown.com/legal/privacy">Buttondown</a>, which runs the list for us, keeps your email address, when you signed up, and the IP address and page you signed up from.</li>
+    <li>You confirm by email before anything is sent, and every email has a one-click unsubscribe link.</li>
+    <li>We send launch news and the introductory price. We do not share the list.</li>
+  </ul>
+
+  <h2>The display</h2>
+  <p>ReefGauge reads your controller and your Red Sea equipment over your own network, and keeps your readings, tests, photos and settings on the display itself. These are what leave it:</p>
+  <ul>
+    <li><b>Registration.</b> During setup the display sends us:
+      <ul>
+        <li>your first and last name, email and phone number</li>
+        <li>the tank's name</li>
+        <li>the display's serial number, unit ID and software version</li>
+      </ul>
+      They go to our own server (relay.reefgauge.com, hosted by DigitalOcean), with a backup copy on our office computer. We use them for support, warranty and safety notices about your display. We do not add you to the newsletter.</li>
+    <li><b>Weather.</b> The display sends the location you set (as map coordinates) to <a href="https://open-meteo.com/en/terms">Open-Meteo</a> for the forecast. When you search for your town during setup, the search text goes to Open-Meteo too.</li>
+    <li><b>Fish stores, on the Raspberry Pi version.</b> When you open Fish stores, the display sends the location you set to our server. Our server looks up shops near you through Google, using that location rounded to about 5 km, and keeps the list for a week.</li>
+    <li><b>Software updates.</b> Every few hours the display checks for a newer version.
+      <ul>
+        <li>The Android tablet asks our server and downloads updates from it.</li>
+        <li>The Raspberry Pi version checks and downloads from GitHub, which hosts our release files. When it installs an update, it also fetches software packages from the public npm and Python package registries.</li>
+      </ul>
+      These requests carry the display's IP address and the release channel it follows, not your name or your readings.</li>
+    <li><b>Checking for the internet.</b> The display checks it can reach the internet using a standard Google address, the same check phones and computers make.</li>
+    <li><b>Fonts.</b> The Raspberry Pi version's screen, and the pages your phone opens from either version, load a font from Google Fonts, so Google sees the IP address of the display or the phone.</li>
+    <li><b>Remote support, only when you start it.</b> A support session opens only when you choose it on the screen and give us the code. While it is open:
+      <ul>
+        <li>We can see the display's status, settings, current readings and recent log.</li>
+        <li>We can change its settings, restart it or install a software update. The display lists any settings we change.</li>
+        <li>We may use Claude, an AI assistant made by Anthropic, to read the display's status and log and suggest a fix. Claude is not given your name, email or phone.</li>
+      </ul>
+      Our server notes when a session opens. The session ends when you close it, or an hour after it starts.</li>
+    <li><b>Phone alerts, on the Raspberry Pi version, only if you turn them on.</b> Alert messages, including the reading that set them off, travel to your phone through <a href="https://ntfy.sh/">ntfy.sh</a>.</li>
+    <li><b>Your phone.</b> Backups, photos and lab results move between the display and your phone over your own network. They do not come to us.</li>
+  </ul>
+
+  <h2>Email to us</h2>
+  <p>Mail to admin@reefgauge.com is held by Microsoft 365, which hosts our mailbox.</p>
+
+  <h2>Who else sees it</h2>
+  <p>No one buys or rents your information from us, ever.</p>
+  <ul>
+    <li><b>Your registration details.</b> When the display tells you these are kept confidential and never disclosed outside ReefGauge, this is what that means:
+      <ul>
+        <li>They go only to our own server, hosted for us by DigitalOcean, and to our office computer.</li>
+        <li>If you write to us, they are also in our mailbox at Microsoft.</li>
+        <li>Those providers act for us and may not use them for anything else.</li>
+      </ul></li>
+    <li><b>Services that run parts of ReefGauge for us:</b> DigitalOcean (our server), Buttondown (the newsletter), Microsoft (our mailbox) and GitHub (this website and the Raspberry Pi version's updates).</li>
+    <li><b>Independent services the display or the site talk to, under their own privacy policies:</b>
+      <ul>
+        <li>Open-Meteo (weather and town search)</li>
+        <li>Google (fonts, the internet check and fish-store search)</li>
+        <li>the npm and Python package registries (Raspberry Pi updates)</li>
+        <li>ntfy.sh (phone alerts, only if you turn them on)</li>
+        <li>Anthropic (Claude, during a support session)</li>
+      </ul>
+      They see only what is listed above for each.</li>
+    <li><b>The law.</b> We will disclose information if the law requires it.</li>
+  </ul>
+
+  <h2>How long we keep it, and your choices</h2>
+  <ul>
+    <li><b>Registration details.</b> We keep these while you use the display and for as long as we support it.</li>
+    <li><b>Newsletter address.</b> We keep this until you unsubscribe.</li>
+    <li><b>Changes and deletion.</b> To see, correct or delete what we hold about you, email <a href="mailto:admin@reefgauge.com">admin@reefgauge.com</a>. We will do it, normally within 30 days.</li>
+    <li><b>Do Not Track.</b> We do not track you across other sites, so a browser's Do Not Track setting changes nothing here.</li>
+    <li><b>Children.</b> ReefGauge is not aimed at children under 13, and we do not knowingly collect their information.</li>
+  </ul>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the new version will be posted here with a new effective date.</p>
+
+  <footer>ReefGauge · Richmond, Virginia · <a href="mailto:admin@reefgauge.com">admin@reefgauge.com</a> · <a href="./">Home</a></footer>
+</main>
+</body>
+</html>

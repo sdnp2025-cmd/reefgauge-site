@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ReefGauge</title>
-<meta name="description" content="ReefGauge is a 10-inch touchscreen for the wall that shows your whole reef at a glance: every parameter from your controller, your automated tester and your ICP lab, with alerts you cannot miss. Coming early 2027.">
-<meta property="og:title" content="ReefGauge — your reef at a glance">
-<meta property="og:description" content="A wall display for reef tanks. Works with Neptune Apex and Trident, Red Sea ReefBeat and your ICP lab. No cloud account. Coming early 2027.">
+<title>ReefGauge — a reef aquarium display for Neptune Apex and Red Sea</title>
+<meta name="description" content="A touchscreen for the wall beside your reef aquarium: Apex, Trident and Red Sea readings, ICP results and hand tests at a glance, with loud alarms.">
+<meta property="og:title" content="ReefGauge — your reef aquarium at a glance">
+<meta property="og:description" content="A wall display for reef aquariums. Works with Neptune Apex and Trident, Red Sea ReefBeat and your ICP results. No subscription. Coming early 2027.">
 <meta property="og:image" content="https://reefgauge.com/assets/home.jpg">
 <meta property="og:url" content="https://reefgauge.com/">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#dfe9f6">
 <link rel="icon" href="assets/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
@@ -19,7 +21,7 @@
     --ink: #10233a; --ink-2: #3e5570; --ink-3: #6f8399;
     --bg-a: #eef4fb; --bg-b: #dbe8f6; --bg-c: #e9e4f6;
     --panel: rgba(255,255,255,.72); --panel-edge: rgba(255,255,255,.9); --inset: #f2f6fb;
-    --coral: #ff6f61; --coral-ink: #b8382c; --accent: #5b4bc4; --ok: #2f8a5b; --warn: #b7791f; --bad: #d63b2f;
+    --coral: #ff6f61; --coral-ink: #b8382c; --accent: #5b4bc4; --ok: #2f8a5b; --warn: #8a5a12; --bad: #d63b2f;
     --shadow: 0 18px 50px rgba(16,35,58,.12);
     --r: 22px;
   }
@@ -47,7 +49,7 @@
   .nav nav { display: flex; gap: 22px; font-weight: 600; font-size: 15px; }
   .nav nav a { color: var(--ink-2); text-decoration: none; }
   .nav nav a:hover { color: var(--ink); }
-  .chip { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.7); border: 1px solid var(--panel-edge); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 700; color: var(--accent); }
+  .chip { white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.7); border: 1px solid var(--panel-edge); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 700; color: var(--accent); }
   .chip::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
 
   /* hero */
@@ -62,12 +64,12 @@
   /* signup */
   .signup { display: grid; gap: 10px; max-width: 520px; }
   .signup form { display: flex; gap: 10px; }
-  .signup input[type=email] { flex: 1; min-width: 0; font: inherit; padding: 14px 16px; border-radius: 14px; border: 2px solid var(--panel-edge); background: rgba(255,255,255,.85); color: var(--ink); }
+  .signup input[type=email] { flex: 1; width: 100%; min-width: 0; font: inherit; padding: 14px 16px; border-radius: 14px; border: 2px solid var(--ink-3); background: #fff; color: var(--ink); }
   .signup input[type=email]:focus { outline: none; border-color: var(--accent); }
-  .btn { font: inherit; font-weight: 800; padding: 14px 22px; border-radius: 14px; border: none; background: var(--coral); color: #fff; cursor: pointer; white-space: nowrap; }
+  .btn { font: inherit; font-weight: 800; padding: 14px 22px; border-radius: 14px; border: none; background: var(--coral); color: var(--ink); cursor: pointer; white-space: nowrap; }
   .btn:hover { filter: brightness(1.05); }
   .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  .signup small { color: var(--ink-3); font-size: 13px; }
+  .signup small { color: var(--ink-2); font-size: 13px; }
 
   /* sections */
   section { padding: 40px 0; }
@@ -108,16 +110,20 @@
   .cta .signup { margin: 22px auto 0; }
   .cta h2 { margin-bottom: 8px; }
 
-  footer { padding: 30px 0 46px; font-size: 14px; color: var(--ink-3); display: grid; gap: 10px; }
+  footer { padding: 30px 0 46px; font-size: 14px; color: var(--ink-2); display: grid; gap: 10px; }
   footer .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
-  footer a { color: var(--ink-2); text-decoration: none; }
+  footer a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
+  footer a:hover { color: var(--ink); }
 
   @media (max-width: 900px) {
     .hero, .feature, .wall, .faq { grid-template-columns: 1fr; }
     .feature:nth-child(even) .shot { order: 0; }
     .works { grid-template-columns: 1fr 1fr; }
     .nav nav { display: none; }
+    /* The nav already carries the name; keep the form on the first screen. */
+    .hero .logo { width: 140px; }
   }
+  @media (max-width: 400px) { .chip { white-space: normal; } }
   @media (max-width: 560px) {
     .works { grid-template-columns: 1fr; }
     .signup form { flex-direction: column; }
@@ -142,18 +148,21 @@
 
   <section class="hero" id="top">
     <div class="copy">
-      <img class="logo" src="assets/logo.png" alt="ReefGauge">
+      <picture>
+        <source srcset="assets/logo.webp" type="image/webp">
+        <img class="logo" src="assets/logo.png" alt="ReefGauge" width="640" height="548">
+      </picture>
       <h1>Your reef, at a glance.</h1>
-      <p class="lede">A 10-inch touchscreen for the wall beside your tank. It reads your controller, your automated tester and your ICP lab, and shows the whole reef the moment you walk in — every number, every trend, and an alert you cannot miss when something is wrong.</p>
+      <p class="lede">A 10-inch touchscreen for the wall beside your reef aquarium. It reads your controller, your automated tester and your ICP results, and shows the whole reef the moment you walk in — every number, every trend, and an alert that's hard to miss when something is wrong.</p>
       <div class="signup">
-        <!-- Point the form at your list. Buttondown: create an account named "reefgauge" and this works as is.
-             Mailchimp / ConvertKit: replace the action with their embed URL. -->
+        <!-- Buttondown newsletter "reefgauge" (created 14 Oct 2026). Set its subscription redirect to
+             https://reefgauge.com/thanks.html once that page is live (site/README.md). -->
         <form action="https://buttondown.com/api/emails/embed-subscribe/reefgauge" method="post" target="_blank">
           <label for="email" class="sr-only" style="position:absolute;left:-9999px">Email address</label>
           <input id="email" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
           <button class="btn" type="submit">Tell me when it ships</button>
         </form>
-        <small>Launch news only. No spam, one click to leave.</small>
+        <small>We'll email you once to confirm. Launch news and the introductory price only; unsubscribe in one click. <a href="privacy.html">Privacy</a></small>
       </div>
     </div>
     <div class="device">
@@ -165,24 +174,24 @@
     <div class="section-head">
       <span class="eyebrow">Works with what you already own</span>
       <h2>It doesn't replace your controller. It shows you what it knows.</h2>
-      <p class="muted">ReefGauge talks to the gear on your network directly — no account with us, no cloud in the middle.</p>
+      <p class="muted">ReefGauge talks to the gear on your network directly — no account needed, no cloud in the middle.</p>
     </div>
     <div class="works">
       <div class="card">
         <h3>Neptune Apex</h3>
-        <p>Every probe on the Apex, plus Trident and Trident NP results as they land — alkalinity, calcium, magnesium, nitrate and phosphate, tested up to 24 times a day.</p>
+        <p>Temperature, pH and salinity from your Apex probes, plus Trident and Trident NP results as they land — alkalinity, calcium, magnesium, nitrate and phosphate.</p>
       </div>
       <div class="card">
         <h3>Red Sea ReefBeat</h3>
-        <p>ReefRun, ReefMat, ReefDose and ReefATO+ report in over the LAN: pump state, roll remaining, dosing done, top-off running. Skimmer cup full? You'll know.</p>
+        <p>Over your own network: ReefMat roll remaining and ReefRun pump state — skimmer cup full? You'll know. ReefDose, ReefATO+, ReefLED and ReefWave show their basic status.</p>
       </div>
       <div class="card">
-        <h3>Your ICP lab</h3>
-        <p>Drop in the PDF from ATI, Triton, Oceamo or Fauna Marin. Twenty-plus elements, colour-coded against the lab's own ranges, with a dosing plan built from what's low.</p>
+        <h3>Your ICP results</h3>
+        <p>Paste your lab's results from your phone. Twenty-plus elements shown against natural-seawater reference bands, with anything outside them flagged, and you see what it read before it saves.</p>
       </div>
       <div class="card">
         <h3>HYDROS &amp; GHL</h3>
-        <p>CoralVue HYDROS through its public API and GHL ProfiLux 4 over the LAN are next in line.</p>
+        <p>CoralVue HYDROS (through its official API, which needs the internet) and GHL ProfiLux 4 (over your network) are planned.</p>
         <span class="soon">On the roadmap</span>
       </div>
     </div>
@@ -199,28 +208,28 @@
           <h3>The tank card</h3>
           <p>Temperature, pH, salinity, alkalinity, calcium, magnesium, nitrate and phosphate as ring gauges, each with its target range and a 24-hour trend line underneath. Green when it's right, amber when it's drifting, red when it isn't.</p>
         </div>
-        <div class="shot"><img src="assets/tank.jpg" alt="The tank card with eight ring gauges and trend lines" loading="lazy"></div>
+        <div class="shot"><img src="assets/tank.jpg" width="654" height="468" alt="The tank card with eight ring gauges and trend lines" loading="lazy"></div>
       </div>
       <div class="card feature">
         <div class="text">
           <h3>Alerts you can't walk past</h3>
-          <p>When a parameter leaves its range, a pop-up takes over the screen and the panel's speakers sound — at any hour for the urgent ones, quiet hours respected for the rest. Tap <em>Got it</em> and it retreats to the ticker along the bottom until it's fixed. Pushes to your phone too.</p>
+          <p>When a reading from your controller leaves its range, a pop-up takes over the screen and the speakers sound. Temperature and pH sound at any hour, and so does the controller itself going quiet; the slower-moving readings wait out the quiet hours you set (10 pm to 7 am out of the box) and show without the sound. Tap <em>Got it</em> and it retreats to the ticker along the bottom until it's fixed.</p>
         </div>
-        <div class="shot"><img src="assets/alert.jpg" alt="A red alert pop-up reading Salinity high, 36.3 ppt, over the dimmed dashboard" loading="lazy"></div>
+        <div class="shot"><img src="assets/alert.jpg" width="768" height="450" alt="A red alert pop-up reading Salinity high, 36.3 ppt, over the dimmed dashboard" loading="lazy"></div>
       </div>
       <div class="card feature">
         <div class="text">
           <h3>Chemistry that means something</h3>
-          <p>Your ICP results on dials, with the elements that are out of range in the colours you'd expect. Log water changes and dosing; ReefGauge turns a low reading into a measured dose for the supplements you actually use — two-part, Red Sea, Triton, Balling, ESV, Moonshiners.</p>
+          <p>Your ICP results on dials, with anything outside its reference band in the colors you'd expect. Log water changes and doses with a tap on buttons named for what you actually use — two-part, Balling, kalkwasser, Red Sea Foundation, Triton Core7, ESV B-Ionic, All-For-Reef, Reef Moonshiners — and keep the whole history in one place.</p>
         </div>
-        <div class="shot"><img src="assets/icp.jpg" alt="The ICP results screen: dial gauges for trace elements, green in range, red out of range" loading="lazy"></div>
+        <div class="shot"><img src="assets/icp.jpg" width="1024" height="600" alt="The ICP results screen: dial gauges for trace elements, green in range, red out of range" loading="lazy"></div>
       </div>
       <div class="card feature">
         <div class="text">
           <h3>The room, and the weather</h3>
-          <p>A CO₂ sensor in the display watches the air the tank breathes — high room CO₂ pulls pH down — alongside temperature and humidity. Outside, the local forecast and radar, because a storm on the way is a power cut on the way.</p>
+          <p>Outside, the local forecast, because a storm on the way is a power cut on the way. Inside, a room-air sensor is planned to watch the CO₂ the tank breathes — high room CO₂ pulls pH down — alongside temperature and humidity.</p>
         </div>
-        <div class="shot"><img src="assets/air.jpg" alt="The weather and room air cards" loading="lazy"></div>
+        <div class="shot"><img src="assets/air.jpg" width="652" height="556" alt="The weather and room air cards" loading="lazy"></div>
       </div>
     </div>
   </section>
@@ -231,14 +240,14 @@
       <h2>Made for the wall, not the desk.</h2>
     </div>
     <div class="wall">
-      <img src="assets/boot.jpg" alt="The ReefGauge logo rising on a deep-blue boot screen" loading="lazy" width="1024" height="600">
+      <img src="assets/boot.jpg" alt="The ReefGauge logo on a deep-blue screen" loading="lazy" width="1024" height="600">
       <div class="facts">
-        <div class="fact"><b>10.1″ IPS</b><span>1024 × 600 touchscreen, glass front, in a case designed for it</span></div>
-        <div class="fact"><b>Boots to the reef</b><span>Power on, logo, dashboard. No desktop, no login, no cursor</span></div>
-        <div class="fact"><b>Your data stays home</b><span>Everything runs on the display. No account, no subscription, nothing leaves your network unless you ask</span></div>
+        <div class="fact"><b>10″ touchscreen</b><span>Mounted on the wall beside the tank. Full hardware details at launch</span></div>
+        <div class="fact"><b>Boots to the reef</b><span>Power on and it's your tank. No desktop, no login, no cursor</span></div>
+        <div class="fact"><b>Your readings stay home</b><span>Your tank's numbers stay on your own network unless you start a support session or turn on phone alerts, and it keeps working without the internet. No subscription. <a href="privacy.html">What leaves the display</a></span></div>
         <div class="fact"><b>Set up by touch</b><span>Wi-Fi, location, tank name, controller and equipment in five minutes, on the screen itself</span></div>
-        <div class="fact"><b>Two speakers</b><span>For the alarms, and for nothing else</span></div>
-        <div class="fact"><b>Screensaver</b><span>The intro animation, your coral journal or family photos when nobody's looking</span></div>
+        <div class="fact"><b>Speakers</b><span>Loud enough to hear the alarms from the next room</span></div>
+        <div class="fact"><b>Maintenance reminders</b><span>Filter socks, skimmer cup, water changes: due jobs show on the ticker, and a tap ticks them off</span></div>
       </div>
     </div>
   </section>
@@ -249,34 +258,34 @@
       <h2>The short answers.</h2>
     </div>
     <div class="faq">
-      <details><summary>Do I need an Apex?</summary><p>No, but it's the best case. With an Apex and Trident everything is automatic. Without a controller you still get ICP results, the chemistry log and dosing, room air, weather and alerts on what you log by hand.</p></details>
-      <details><summary>Does it need the internet?</summary><p>Only for the weather, radar and phone pushes. Your controller, your ReefBeat gear and the display talk over your own network; if the internet goes down the reef screen keeps working.</p></details>
-      <details><summary>Is there a subscription?</summary><p>No. You buy the display, it's yours. Software updates are free and install from the settings screen.</p></details>
-      <details><summary>Can I see it from my phone?</summary><p>Not yet — remote viewing is the first thing after launch. For now you get alerts on your phone, and the display itself in the room.</p></details>
-      <details><summary>What about my other gear?</summary><p>HYDROS and GHL are next. If you run something else, tell us what — the list of what people own decides what comes after.</p></details>
-      <details><summary>When, and how much?</summary><p>Early 2027. Price to be announced; the launch list hears first, and hears about the introductory price.</p></details>
+      <details><summary>Do I need an Apex?</summary><p>No, but it's the best case. With an Apex and Trident the numbers arrive on their own. Without a controller you type in your test-kit results: they color the gauges and go on the charts (typed results don't sound alarms). You still get ICP results, the dosing log, maintenance reminders and the weather.</p></details>
+      <details><summary>Does it need the internet?</summary><p>For the weather, registration, software updates and a remote-support session you start yourself. Your controller, your ReefBeat gear and the display talk over your own network; if the internet goes down the reef screen keeps working.</p></details>
+      <details><summary>Is there a subscription?</summary><p>No. You buy the display, it's yours, and it never needs a subscription. Software updates are free and install from the settings screen.</p></details>
+      <details><summary>Can I see it from my phone?</summary><p>Not yet. Viewing your tank from your phone is planned for after launch.</p></details>
+      <details><summary>What about my other gear?</summary><p>HYDROS and GHL are planned. If you run something else, tell us what — the list of what people own decides what comes after.</p></details>
+      <details><summary>When, and how much?</summary><p>Early 2027. One price, no subscription; the price is still to be announced. The launch list hears first, and hears about the introductory price.</p></details>
     </div>
   </section>
 
   <section class="card cta">
     <h2>Be first to hang one.</h2>
-    <p class="muted">Launch news, the introductory price, and a look at the case coming off the printer.</p>
+    <p class="muted">Launch news, the introductory price, and a first look at the display on the wall.</p>
     <div class="signup">
       <form action="https://buttondown.com/api/emails/embed-subscribe/reefgauge" method="post" target="_blank">
         <label for="email2" style="position:absolute;left:-9999px">Email address</label>
         <input id="email2" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
         <button class="btn" type="submit">Tell me when it ships</button>
       </form>
-      <small>Launch news only. No spam, one click to leave.</small>
+      <small>We'll email you once to confirm. Launch news and the introductory price only; unsubscribe in one click. <a href="privacy.html">Privacy</a></small>
     </div>
   </section>
 
   <footer>
     <div class="row">
       <span>© 2026 ReefGauge · Richmond, Virginia</span>
-      <span><a href="mailto:hello@reefgauge.com">hello@reefgauge.com</a></span>
+      <span><a href="privacy.html">Privacy</a> · <a href="mailto:admin@reefgauge.com">admin@reefgauge.com</a></span>
     </div>
-    <p>Neptune Apex and Trident are trademarks of Neptune Systems. ReefBeat, ReefRun, ReefMat, ReefDose and ReefATO+ are trademarks of Red Sea. HYDROS is a trademark of CoralVue. ProfiLux is a trademark of GHL. ReefGauge is independent and is not affiliated with or endorsed by any of them; compatibility means ReefGauge reads their equipment on your network.</p>
+    <p>Neptune Apex and Trident are trademarks of Neptune Systems. ReefBeat, ReefRun, ReefMat, ReefDose and ReefATO+ are trademarks of Red Sea. HYDROS is a trademark of CoralVue. ProfiLux is a trademark of GHL. Other product and lab names are trademarks of their owners. ReefGauge is independent and is not affiliated with or endorsed by any of them; compatibility means ReefGauge reads their equipment or results. Weather data by <a href="https://open-meteo.com/">Open-Meteo.com</a>.</p>
   </footer>
 
 </div>
