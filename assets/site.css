@@ -4,6 +4,7 @@
 @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 800; font-display: swap; src: url('fonts/Outfit-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 :root {
+  --logo-w: clamp(150px, 12.5vw, 184px);   /* the logo, top of the hero and in the sign-up band */
   --ink: #0b1b2e;
   --ink-2: #3d5068;
   --ink-3: #52667e;
@@ -147,7 +148,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .menu nav a:hover { background: var(--bg); }
 
 /* ---------- hero ---------- */
-.hero { position: relative; padding: 116px 0 40px; text-align: center; isolation: isolate; }
+.hero { position: relative; padding: 104px 0 40px; text-align: center; isolation: isolate; }
 .hero::before {
   content: ''; position: absolute; inset: 0 0 -20%; z-index: -1;
   background:
@@ -161,6 +162,8 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   box-shadow: inset 0 0 0 1px rgba(11, 27, 46, .07); font-size: 14px; font-weight: 500; color: var(--ink-2);
 }
 .hero .status b { white-space: nowrap; background: var(--navy); color: #fff; font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; }
+.hero-logo { display: block; width: var(--logo-w); margin: 0 auto 26px; }
+.hero-logo img { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 18px rgba(10, 74, 134, .16)); }
 .hero .lede { margin: 18px auto 0; max-width: 60ch; }
 .hero .signup { margin: 26px auto 0; }
 .hero .signup small { text-align: center; }
@@ -168,7 +171,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .assure li { display: inline-flex; align-items: center; gap: 8px; }
 .assure svg { color: var(--teal); flex: none; }
 
-.stage { position: relative; margin: 40px auto 0; max-width: 980px; perspective: 2000px; }
+.stage { position: relative; margin: 28px auto 0; max-width: 980px; perspective: 2000px; }
 .stage::before {
   content: ''; position: absolute; inset: 8% 6% -6%; z-index: -1; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(26, 143, 208, .32), rgba(14, 147, 132, .18) 55%, transparent);
@@ -196,6 +199,104 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .device.sm { border-radius: 26px; padding: 11px; }
 .device.sm::after { top: 4px; width: 4px; height: 4px; }
 .device.sm .screen { border-radius: 15px; }
+
+/* ---------- the display's boot animation, looping ----------
+   A port of web/src/components/BootSplash.jsx and the .boot rules in
+   web/src/styles.css, looping as the display's screensaver does: one 6.5 s
+   round (rise, settle, hold) ending in a 0.7 s dissolve. The display sizes it
+   in vh and vw of a 16:10 screen; here 1vh = .625cqw of the frame, and the
+   Pi's px are of its 1024-wide panel (1px = .09766cqw). Every time below is
+   the display's delay and duration as a share of the round. */
+.device .screen.bootloop { position: relative; container-type: inline-size; background: #052548; }
+.bootloop .boot {
+  position: absolute; inset: 0; overflow: hidden; display: grid; place-items: center;
+  background: linear-gradient(180deg, #0a4a86 0%, #073462 55%, #052548 100%);
+  animation: bl-dissolve 6.5s infinite;
+}
+.bootloop .boot-water {
+  position: absolute; inset: 0; opacity: 0;
+  background: linear-gradient(180deg, #1e7fc4 0%, #0f5a9c 55%, #0a3f74 100%);
+  animation: bl-water 6.5s infinite;
+}
+.bootloop .boot-shaft {
+  position: absolute; top: -20%; bottom: -20%; left: -40cqw; width: 28cqw;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .16), transparent);
+  transform: skewX(-18deg);
+  animation: bl-shaft 6.5s infinite;
+}
+.bootloop .boot-bubble {
+  position: absolute; bottom: -1.95cqw; left: var(--x);
+  width: calc(var(--s) * .09766cqw); height: calc(var(--s) * .09766cqw); border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, .35) 30%, rgba(255, 255, 255, .06) 60%, rgba(255, 255, 255, .2) 100%);
+  border: 1px solid rgba(255, 255, 255, .45);
+  opacity: 0;
+  animation: bl-rise var(--t) linear var(--w) infinite;
+}
+.device .bootloop .boot-logo {
+  position: relative; width: 48.75%; width: 48.75cqw; height: auto; object-fit: contain;
+  filter: drop-shadow(0 1.76cqw 3.9cqw rgba(2, 20, 45, .55));
+  transform-origin: 50% 60%; opacity: 0;
+  animation: bl-logo 6.5s infinite;
+}
+.bootloop .boot-line {
+  position: absolute; bottom: 5.625cqw; left: 50%; width: 22cqw; height: max(2px, .3cqw); margin-left: -11cqw;
+  border-radius: 3px; background: rgba(255, 255, 255, .18); overflow: hidden;
+}
+.bootloop .boot-line span {
+  display: block; width: 100%; height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, #2fd6ff, #7cf3c8);
+  transform: translateX(-100%);
+  animation: bl-line 6.5s infinite;
+}
+/* 0.15 s + 1.1 s on cubic-bezier(.22, 1.2, .36, 1) */
+@keyframes bl-logo {
+  0%, 2.3077% { opacity: 0; transform: translateY(3.75cqw) scale(.9); animation-timing-function: cubic-bezier(.22, 1.2, .36, 1); }
+  19.2308%, 100% { opacity: 1; transform: none; }
+}
+/* 0.4 s + 2.6 s */
+@keyframes bl-water {
+  0%, 6.1538% { opacity: 0; animation-timing-function: ease-in-out; }
+  46.1538%, 100% { opacity: 1; }
+}
+/* 0.9 s + 1.6 s */
+@keyframes bl-shaft {
+  0%, 13.8462% { transform: skewX(-18deg); animation-timing-function: ease-in-out; }
+  38.4615%, 100% { transform: skewX(-18deg) translateX(190cqw); }
+}
+/* 0.4 s + 2.5 s */
+@keyframes bl-line {
+  0%, 6.1538% { transform: translateX(-100%); animation-timing-function: cubic-bezier(.4, 0, .2, 1); }
+  44.6154%, 100% { transform: none; }
+}
+/* the last 0.7 s, ease-in, into the deep blue under it */
+@keyframes bl-dissolve {
+  0%, 89.2308% { opacity: 1; animation-timing-function: ease-in; }
+  100% { opacity: 0; }
+}
+@keyframes bl-rise {
+  0% { transform: translate3d(0, 0, 0) scale(.6); opacity: 0; }
+  10% { opacity: .8; }
+  50% { transform: translate3d(calc(var(--drift) * .09766cqw), -34.375cqw, 0) scale(.9); }
+  90% { opacity: .6; }
+  100% { transform: translate3d(0, -70cqw, 0) scale(1.05); opacity: 0; }
+}
+/* Only while it is on screen (the page's script adds .playing), and not
+   once someone has paused it. */
+.js .bootloop:not(.playing) .boot, .js .bootloop:not(.playing) .boot *,
+.bootloop.paused .boot, .bootloop.paused .boot * { animation-play-state: paused; }
+.wall .device { position: relative; }
+.loop-toggle {
+  position: absolute; right: 22px; bottom: 22px; z-index: 2; display: grid; place-items: center;
+  width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+  color: #fff; background: rgba(5, 37, 72, .55); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: .75; transition: opacity .2s;
+}
+.loop-toggle:hover, .loop-toggle:focus-visible { opacity: 1; }
+.loop-toggle:focus-visible { outline: 2px solid #7cf3c8; outline-offset: 2px; }
+.loop-toggle .i-play { display: none; }
+.loop-toggle[aria-pressed="true"] .i-play { display: block; }
+.loop-toggle[aria-pressed="true"] .i-pause { display: none; }
 
 .float {
   position: absolute; z-index: 2; display: flex; align-items: center; gap: 12px; text-align: left;
@@ -345,7 +446,8 @@ section { position: relative; }
 .cta .signup { margin: 40px auto 0; }
 .cta .signup small { color: #9fb2c8; text-align: center; }
 .cta .signup small a { color: #d6e2ef; }
-.cta img.mark { width: 64px; height: 64px; border-radius: 16px; margin: 0 auto 28px; box-shadow: 0 16px 40px -16px rgba(0, 0, 0, .6); }
+.cta .mark { display: block; width: var(--logo-w); margin: 0 auto 34px; }
+.cta .mark img { display: block; width: 100%; height: auto; filter: drop-shadow(0 0 36px rgba(64, 170, 255, .22)) drop-shadow(0 14px 22px rgba(0, 0, 0, .35)); }
 
 /* footer */
 .foot { padding: 72px 0 56px; font-size: 15px; color: var(--ink-3); }
@@ -394,6 +496,11 @@ section { position: relative; }
 @media (max-width: 1399px) {
   .float { display: none; }
 }
+@media (min-width: 901px) and (max-height: 920px) {
+  .hero-logo { width: 156px; margin-bottom: 22px; }
+  .hero .lede { margin-top: 14px; }
+  .hero .signup { margin-top: 22px; }
+}
 @media (max-width: 1100px) {
   .cards4 { grid-template-columns: 1fr 1fr; }
 }
@@ -415,7 +522,7 @@ section { position: relative; }
 }
 @media (max-width: 760px) {
   body { font-size: 17px; }
-  .hero { padding-top: 120px; }
+  .hero { padding-top: 108px; }
   .float { display: none; }
   .stage { margin-top: 52px; }
   .device { border-radius: 22px; padding: 9px; }
@@ -428,6 +535,7 @@ section { position: relative; }
 }
 @media (max-width: 560px) {
   .hero { padding-top: 104px; }
+  .hero-logo { width: 132px; margin-bottom: 16px; }
   .hero .status { display: grid; justify-items: center; gap: 8px; padding: 0; margin-bottom: 18px; background: none; box-shadow: none; text-align: center; font-size: 13px; text-wrap: balance; }
   .signup .btn { white-space: normal; text-align: center; }
   .tile { padding: 24px 20px 20px; }
@@ -443,6 +551,9 @@ section { position: relative; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .loop-toggle { display: none; }
+  .bootloop .boot { display: none; }
+  .device .screen.bootloop { background: #052548 url(shots/boot-1280.webp) center / cover no-repeat; background-image: image-set(url(shots/boot-1280.webp) 1x, url(shots/boot-2560.webp) 2x); }
   .js [data-reveal] { opacity: 1; transform: none; transition: none; }
   .tilt { transform: none !important; }
   .btn, .btn .arrow, .faq summary .pm { transition: none; }
@@ -453,6 +564,9 @@ section { position: relative; }
   .btn, .menu summary { border: 1px solid ButtonText; }
 }
 @media print {
+  .loop-toggle { display: none !important; }
+  .bootloop .boot { display: none; }
+  .device .screen.bootloop { background: #052548 url(shots/boot-1280.webp) center / cover no-repeat; background-image: image-set(url(shots/boot-1280.webp) 1x, url(shots/boot-2560.webp) 2x); }
   .js [data-reveal] { opacity: 1 !important; transform: none !important; }
   .tilt { transform: none !important; }
   .nav { position: static; }
