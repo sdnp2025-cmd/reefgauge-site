@@ -2,293 +2,385 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ReefGauge — a reef aquarium display for Neptune Apex and Red Sea</title>
 <meta name="description" content="A touchscreen for the wall beside your reef aquarium: Apex, Trident and Red Sea readings, ICP results and hand tests at a glance, with loud alarms.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ReefGauge">
 <meta property="og:title" content="ReefGauge — your reef aquarium at a glance">
 <meta property="og:description" content="A wall display for reef aquariums. Works with Neptune Apex and Trident, Red Sea ReefBeat and your ICP results. No subscription. Coming early 2027.">
-<meta property="og:image" content="https://reefgauge.com/assets/home.jpg">
+<meta property="og:image" content="https://reefgauge.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ReefGauge: Your reef, at a glance, beside the home screen of the wall display">
 <meta property="og:url" content="https://reefgauge.com/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#dfe9f6">
+<meta name="theme-color" content="#f5f8fb">
+<link rel="canonical" href="https://reefgauge.com/">
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/icon.png">
 <link rel="preload" href="assets/fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<style>
-  /* Outfit, self-hosted (SIL Open Font License, assets/fonts/OFL-Outfit.txt): no request to Google. */
-  @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 800; font-display: swap; src: url('assets/fonts/Outfit-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-  @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 800; font-display: swap; src: url('assets/fonts/Outfit-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-  :root {
-    --ink: #10233a; --ink-2: #3e5570; --ink-3: #6f8399;
-    --bg-a: #eef4fb; --bg-b: #dbe8f6; --bg-c: #e9e4f6;
-    --panel: rgba(255,255,255,.72); --panel-edge: rgba(255,255,255,.9); --inset: #f2f6fb;
-    --coral: #ff6f61; --coral-ink: #b8382c; --accent: #5b4bc4; --ok: #2f8a5b; --warn: #8a5a12; --bad: #d63b2f;
-    --shadow: 0 18px 50px rgba(16,35,58,.12);
-    --r: 22px;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0; color: var(--ink);
-    font-family: 'Outfit', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 17px; line-height: 1.55;
-    background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%) fixed;
-  }
-  a { color: var(--accent); }
-  img { max-width: 100%; height: auto; display: block; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 22px; }
-  h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -.015em; text-wrap: balance; line-height: 1.08; }
-  h1 { font-size: clamp(38px, 6vw, 68px); }
-  h2 { font-size: clamp(28px, 3.6vw, 40px); }
-  h3 { font-size: 21px; font-weight: 700; }
-  p { margin: 0; }
-  .muted { color: var(--ink-2); }
-
-  /* nav */
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
-  .nav .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); font-weight: 800; font-size: 20px; }
-  .nav .brand img { width: 46px; height: 46px; border-radius: 10px; }
-  .nav nav { display: flex; gap: 22px; font-weight: 600; font-size: 15px; }
-  .nav nav a { color: var(--ink-2); text-decoration: none; }
-  .nav nav a:hover { color: var(--ink); }
-  .chip { white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.7); border: 1px solid var(--panel-edge); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 700; color: var(--accent); }
-  .chip::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
-
-  /* hero */
-  .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 44px; align-items: center; padding: 48px 0 40px; }
-  .hero .copy { display: grid; gap: 22px; }
-  .hero .lede { font-size: 20px; color: var(--ink-2); max-width: 46ch; }
-  .hero .logo { width: min(320px, 70%); margin-bottom: 4px; }
-  .device { position: relative; background: #0e1f33; border-radius: 26px; padding: 12px; box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,.5) inset; }
-  .device img { border-radius: 16px; }
-  .device::after { content: ''; position: absolute; left: 50%; bottom: -14px; width: 46%; height: 14px; transform: translateX(-50%); background: linear-gradient(180deg, rgba(16,35,58,.18), transparent); filter: blur(6px); }
-
-  /* signup */
-  .signup { display: grid; gap: 10px; max-width: 520px; }
-  .signup form { display: flex; gap: 10px; }
-  .signup input[type=email] { flex: 1; width: 100%; min-width: 0; font: inherit; padding: 14px 16px; border-radius: 14px; border: 2px solid var(--ink-3); background: #fff; color: var(--ink); }
-  .signup input[type=email]:focus { outline: none; border-color: var(--accent); }
-  .btn { font: inherit; font-weight: 800; padding: 14px 22px; border-radius: 14px; border: none; background: var(--coral); color: var(--ink); cursor: pointer; white-space: nowrap; }
-  .btn:hover { filter: brightness(1.05); }
-  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  .signup small { color: var(--ink-2); font-size: 13px; }
-
-  /* sections */
-  section { padding: 40px 0; }
-  .section-head { display: grid; gap: 10px; max-width: 62ch; margin-bottom: 26px; }
-  .eyebrow { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--coral-ink); }
-
-  .works { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .works .card { padding: 20px; }
-  .card { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: var(--r); box-shadow: var(--shadow); }
-  .works h3 { margin-bottom: 6px; }
-  .works p { font-size: 15px; color: var(--ink-2); }
-  .works .soon { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--warn); background: #fbefd6; border-radius: 6px; padding: 3px 8px; }
-
-  .features { display: grid; gap: 22px; }
-  .feature { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; padding: 26px; }
-  .feature:nth-child(even) .shot { order: -1; }
-  .feature .text { display: grid; gap: 10px; }
-  .feature .text p { color: var(--ink-2); }
-  .feature .shot img { border-radius: 14px; box-shadow: 0 10px 30px rgba(16,35,58,.15); }
-  .feature ul { margin: 6px 0 0; padding-left: 20px; color: var(--ink-2); display: grid; gap: 4px; }
-
-  .wall { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
-  .wall .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .wall .fact { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 16px; }
-  .wall .fact b { display: block; font-size: 24px; font-weight: 800; letter-spacing: -.02em; }
-  .wall .fact span { font-size: 14px; color: var(--ink-2); }
-  .wall img { border-radius: 18px; box-shadow: var(--shadow); }
-
-  .faq { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .faq details { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 4px 18px; }
-  .faq summary { cursor: pointer; font-weight: 700; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: '+'; font-size: 22px; color: var(--accent); font-weight: 400; }
-  .faq details[open] summary::after { content: '–'; }
-  .faq details p { padding: 0 0 14px; color: var(--ink-2); }
-
-  .cta { text-align: center; padding: 56px 24px; }
-  .cta .signup { margin: 22px auto 0; }
-  .cta h2 { margin-bottom: 8px; }
-
-  footer { padding: 30px 0 46px; font-size: 14px; color: var(--ink-2); display: grid; gap: 10px; }
-  footer .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
-  footer a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
-  footer a:hover { color: var(--ink); }
-
-  @media (max-width: 900px) {
-    .hero, .feature, .wall, .faq { grid-template-columns: 1fr; }
-    .feature:nth-child(even) .shot { order: 0; }
-    .works { grid-template-columns: 1fr 1fr; }
-    .nav nav { display: none; }
-    /* The nav already carries the name; keep the form on the first screen. */
-    .hero .logo { width: 140px; }
-  }
-  @media (max-width: 400px) { .chip { white-space: normal; } }
-  @media (max-width: 560px) {
-    .works { grid-template-columns: 1fr; }
-    .signup form { flex-direction: column; }
-    .wall .facts { grid-template-columns: 1fr; }
-  }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-</style>
+<link rel="preload" as="image" href="assets/shots/home-1280.webp" imagesrcset="assets/shots/home-1280.webp 1280w, assets/shots/home-2560.webp 2560w" imagesizes="(max-width: 1100px) 94vw, 1030px">
+<link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-<div class="wrap">
+<a class="skip" href="#main">Skip to content</a>
 
-  <header class="nav">
-    <a class="brand" href="#top"><img src="assets/icon.png" alt="" width="46" height="46"> ReefGauge</a>
-    <nav aria-label="Sections">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 17a8.5 8.5 0 1 1 15 0"/><path d="m12 13 3.5-4"/><circle cx="12" cy="13.5" r="1.4"/></g></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9"/><path d="M10.3 20a1.9 1.9 0 0 0 3.4 0"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.3 6.3 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10V4.5a1.5 1.5 0 0 1 3 0V11"/><path d="M15 10.5V6.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-.6a6 6 0 0 1-4.6-2.2L3.2 15.4a1.6 1.6 0 0 1 2.5-2L9 16V8.5a1.5 1.5 0 0 1 3 0"/></g></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3h5M10 3v6.2L4.8 18.4A1.8 1.8 0 0 0 6.4 21h11.2a1.8 1.8 0 0 0 1.6-2.6L14 9.2V3"/><path d="M7.2 15h9.6"/></g></symbol>
+    <symbol id="i-controller" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M8 9h8M8 12.5h5"/><circle cx="16" cy="15" r="1"/></g></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9c2.2-2 4.3-2 6.5 0s4.3 2 6.5 0 3.6-1.6 5 0"/><path d="M3 15c2.2-2 4.3-2 6.5 0s4.3 2 6.5 0 3.6-1.6 5 0"/></g></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></g></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l8 8a1.4 1.4 0 0 1 0 2l-7.1 7.1a1.4 1.4 0 0 1-2 0Z"/><circle cx="8.2" cy="8.2" r="1.3"/></g></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.7-4.3L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M4 13a8 8 0 0 0 14.7 4.3l1.3-1.8"/><path d="M20 20v-4.5h-4.5"/></g></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1Z"/></g></symbol>
+    <symbol id="i-offline" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 4-2.3M2 9a14 14 0 0 1 4.3-2.6M15.5 10.4a10 10 0 0 1 3.5 2.1M22 9a14 14 0 0 0-9.8-3.9"/><path d="M8.6 15.9a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r=".8" fill="currentColor"/><path d="m3 3 18 18"/></g></symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="bar">
+    <a class="brand" href="#top" aria-label="ReefGauge, back to top"><img src="assets/icon.png" alt="" width="34" height="34">ReefGauge</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#glance">At a glance</a>
+      <a href="#alerts">Alerts</a>
       <a href="#works">Works with</a>
-      <a href="#features">What it shows</a>
-      <a href="#wall">The display</a>
       <a href="#faq">Questions</a>
     </nav>
-    <span class="chip">Coming early 2027</span>
-  </header>
+    <div class="nav-end">
+      <a class="btn small" href="#join"><span>Join<span class="long"> the list</span></span> <span class="arrow"><svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+      <details class="menu">
+        <summary aria-label="Sections"><svg width="20" height="20" aria-hidden="true"><use href="#i-menu"/></svg></summary>
+        <nav aria-label="Sections menu">
+          <a href="#glance">At a glance</a>
+          <a href="#alerts">Alerts</a>
+          <a href="#works">Works with</a>
+          <a href="#display">The display</a>
+          <a href="#faq">Questions</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
 
   <section class="hero" id="top">
-    <div class="copy">
-      <picture>
-        <source srcset="assets/logo.webp" type="image/webp">
-        <img class="logo" src="assets/logo.png" alt="ReefGauge" width="640" height="548">
-      </picture>
-      <h1>Your reef, at a glance.</h1>
-      <p class="lede">A 10-inch touchscreen for the wall beside your reef aquarium. It reads your controller, your automated tester and your ICP results, and shows the whole reef the moment you walk in — every number, every trend, and an alert that's hard to miss when something is wrong.</p>
-      <div class="signup">
-        <!-- Buttondown newsletter "reefgauge" (created 14 Oct 2026). Set its subscription redirect to
-             https://reefgauge.com/thanks.html once that page is live (site/README.md). -->
+    <div class="wrap">
+      <p class="status" data-reveal><b>Coming early 2027</b><span class="sr-only">:</span> The launch list hears the introductory price first</p>
+      <h1 class="display" data-reveal style="--d:.05s">Your reef,<br><span class="grad">at a glance.</span></h1>
+      <p class="lede" data-reveal style="--d:.12s">A 10-inch touchscreen for the wall beside your reef aquarium. It reads your controller, your automated tester and your ICP results, and shows the whole reef the moment you walk in.</p>
+      <div class="signup" data-reveal style="--d:.18s">
+        <!-- Buttondown newsletter "reefgauge". Its subscription redirect is thanks.html and its
+             confirmation redirect is confirmed.html (site/README.md). -->
         <form action="https://buttondown.com/api/emails/embed-subscribe/reefgauge" method="post" target="_blank">
-          <label for="email" class="sr-only" style="position:absolute;left:-9999px">Email address</label>
+          <label for="email" class="sr-only">Email address</label>
           <input id="email" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
-          <button class="btn" type="submit">Tell me when it ships</button>
+          <button class="btn" type="submit">Tell me when it ships <span class="arrow"><svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></span></button>
         </form>
         <small>We'll email you once to confirm. Launch news and the introductory price only; unsubscribe in one click. <a href="privacy.html">Privacy</a></small>
       </div>
-    </div>
-    <div class="device">
-      <img src="assets/home.jpg" alt="The ReefGauge home screen: eight ring gauges for temperature, pH, salinity, alkalinity, calcium, magnesium, nitrate and phosphate with 24-hour trends, beside weather, room air and chemistry cards" width="1024" height="600">
-    </div>
-  </section>
+      <ul class="assure" data-reveal style="--d:.24s">
+        <li><svg width="18" height="18" aria-hidden="true"><use href="#i-check"/></svg>No subscription</li>
+        <li><svg width="18" height="18" aria-hidden="true"><use href="#i-check"/></svg>Keeps working if the internet drops</li>
+        <li><svg width="18" height="18" aria-hidden="true"><use href="#i-check"/></svg>Alarm volume that never goes to zero</li>
+      </ul>
 
-  <section id="works">
-    <div class="section-head">
-      <span class="eyebrow">Works with what you already own</span>
-      <h2>It doesn't replace your controller. It shows you what it knows.</h2>
-      <p class="muted">ReefGauge talks to the gear on your network directly — no account needed, no cloud in the middle.</p>
-    </div>
-    <div class="works">
-      <div class="card">
-        <h3>Neptune Apex</h3>
-        <p>Temperature, pH and salinity from your Apex probes, plus Trident and Trident NP results as they land — alkalinity, calcium, magnesium, nitrate and phosphate.</p>
-      </div>
-      <div class="card">
-        <h3>Red Sea ReefBeat</h3>
-        <p>Over your own network: ReefMat roll remaining and ReefRun pump state — skimmer cup full? You'll know. ReefDose, ReefATO+, ReefLED and ReefWave show their basic status.</p>
-      </div>
-      <div class="card">
-        <h3>Your ICP results</h3>
-        <p>Paste your lab's results from your phone. Twenty-plus elements shown against natural-seawater reference bands, with anything outside them flagged, and you see what it read before it saves.</p>
-      </div>
-      <div class="card">
-        <h3>HYDROS &amp; GHL</h3>
-        <p>CoralVue HYDROS (through its official API, which needs the internet) and GHL ProfiLux 4 (over your network) are planned.</p>
-        <span class="soon">On the roadmap</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="features">
-    <div class="section-head">
-      <span class="eyebrow">What it shows</span>
-      <h2>Eight gauges, one look.</h2>
-    </div>
-    <div class="features">
-      <div class="card feature">
-        <div class="text">
-          <h3>The tank card</h3>
-          <p>Temperature, pH, salinity, alkalinity, calcium, magnesium, nitrate and phosphate as ring gauges, each with its target range and a 24-hour trend line underneath. Green when it's right, amber when it's drifting, red when it isn't.</p>
+      <div class="stage" data-reveal style="--d:.3s">
+        <div class="tilt" id="tilt">
+          <div class="device">
+            <div class="screen">
+              <img src="assets/shots/home-1280.webp" srcset="assets/shots/home-1280.webp 1280w, assets/shots/home-2560.webp 2560w" sizes="(max-width: 1100px) 94vw, 1030px" width="1280" height="800" fetchpriority="high"
+                alt="The ReefGauge home screen: eight ring gauges for temperature, pH, salinity, alkalinity, calcium, magnesium, nitrate and phosphate, all in range, with 24-hour trends, beside weather, room air and chemistry cards">
+            </div>
+          </div>
         </div>
-        <div class="shot"><img src="assets/tank.jpg" width="654" height="468" alt="The tank card with eight ring gauges and trend lines" loading="lazy"></div>
-      </div>
-      <div class="card feature">
-        <div class="text">
-          <h3>Alerts you can't walk past</h3>
-          <p>When a reading from your controller leaves its range, a pop-up takes over the screen and the speakers sound. Temperature and pH sound at any hour, and so does the controller itself going quiet; the slower-moving readings wait out the quiet hours you set (10 pm to 7 am out of the box) and show without the sound. Tap <em>Got it</em> and it retreats to the ticker along the bottom until it's fixed.</p>
-        </div>
-        <div class="shot"><img src="assets/alert.jpg" width="768" height="450" alt="A red alert pop-up reading Salinity high, 36.3 ppt, over the dimmed dashboard" loading="lazy"></div>
-      </div>
-      <div class="card feature">
-        <div class="text">
-          <h3>Chemistry that means something</h3>
-          <p>Your ICP results on dials, with anything outside its reference band in the colors you'd expect. Log water changes and doses with a tap on buttons named for what you actually use — two-part, Balling, kalkwasser, Red Sea Foundation, Triton Core7, ESV B-Ionic, All-For-Reef, Reef Moonshiners — and keep the whole history in one place.</p>
-        </div>
-        <div class="shot"><img src="assets/icp.jpg" width="1024" height="600" alt="The ICP results screen: dial gauges for trace elements, green in range, red out of range" loading="lazy"></div>
-      </div>
-      <div class="card feature">
-        <div class="text">
-          <h3>The room, and the weather</h3>
-          <p>Outside, the local forecast, because a storm on the way is a power cut on the way. Inside, a room-air sensor is planned to watch the CO₂ the tank breathes — high room CO₂ pulls pH down — alongside temperature and humidity.</p>
-        </div>
-        <div class="shot"><img src="assets/air.jpg" width="652" height="556" alt="The weather and room air cards" loading="lazy"></div>
+        <div class="float f1" aria-hidden="true"><span class="ic"><svg width="20" height="20" aria-hidden="true"><use href="#i-gauge"/></svg></span><span><b>Temperature 78.1 °F</b>In range · 77–79</span></div>
+        <div class="float f2" aria-hidden="true"><span class="ic"><svg width="20" height="20" aria-hidden="true"><use href="#i-bell"/></svg></span><span><b>Temperature and pH</b>Alarm at any hour</span></div>
+        <div class="float f3" aria-hidden="true"><span class="ic"><svg width="20" height="20" aria-hidden="true"><use href="#i-flask"/></svg></span><span><b>ICP results</b>Against seawater reference bands</span></div>
       </div>
     </div>
   </section>
 
-  <section id="wall">
-    <div class="section-head">
-      <span class="eyebrow">The display</span>
-      <h2>Made for the wall, not the desk.</h2>
+  <section class="gear" aria-labelledby="gear-label">
+    <div class="wrap">
+      <p class="label" id="gear-label" data-reveal>Reads the gear you already own</p>
+      <ul data-reveal style="--d:.08s">
+        <li>Neptune Apex</li>
+        <li>Trident &amp; Trident NP</li>
+        <li>Red Sea ReefBeat</li>
+        <li>Your ICP lab results</li>
+        <li class="planned">HYDROS &amp; GHL<span>Planned</span></li>
+      </ul>
     </div>
-    <div class="wall">
-      <img src="assets/boot.jpg" alt="The ReefGauge logo on a deep-blue screen" loading="lazy" width="1024" height="600">
-      <div class="facts">
-        <div class="fact"><b>10″ touchscreen</b><span>Mounted on the wall beside the tank. Full hardware details at launch</span></div>
-        <div class="fact"><b>Boots to the reef</b><span>Power on and it's your tank. No desktop, no login, no cursor</span></div>
-        <div class="fact"><b>Your readings stay home</b><span>Your tank's numbers stay on your own network unless you start a support session or turn on phone alerts, and it keeps working without the internet. No subscription. <a href="privacy.html">What leaves the display</a></span></div>
-        <div class="fact"><b>Set up by touch</b><span>Wi-Fi, location, tank name, controller and equipment in five minutes, on the screen itself</span></div>
-        <div class="fact"><b>Speakers</b><span>Loud enough to hear the alarms from the next room</span></div>
-        <div class="fact"><b>Maintenance reminders</b><span>Filter socks, skimmer cup, water changes: due jobs show on the ticker, and a tap ticks them off</span></div>
+  </section>
+
+  <section class="sec" id="glance">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="eyebrow"><span class="n">01</span> At a glance</span>
+        <h2 class="h2">Eight gauges. <span class="soft">One look the moment you walk in.</span></h2>
+        <p class="lede">Temperature, pH, salinity, alkalinity, calcium, magnesium, nitrate and phosphate as ring gauges, each with its target range and a 24-hour trend line underneath. Green when it's right, amber when it's drifting, red when it isn't.</p>
+      </div>
+
+      <div class="bento">
+        <article class="tile sky span-6" data-reveal>
+          <span class="tag">The tank card</span>
+          <h3 class="h3">Every number, with its range and its day.</h3>
+          <p>Each reading sits beside its target range and a line of its last 24 hours, so a slow drift shows up before it becomes a problem.</p>
+          <div class="shot"><img src="assets/shots/tank-826.webp" srcset="assets/shots/tank-826.webp 826w, assets/shots/tank-1652.webp 1652w" sizes="(max-width: 900px) 90vw, 520px" width="826" height="635" loading="lazy" decoding="async"
+            alt="The tank card: eight ring gauges with their target ranges and 24-hour trend lines, all in range"></div>
+        </article>
+        <article class="tile dark span-6" data-reveal style="--d:.08s">
+          <span class="tag">Trends</span>
+          <h3 class="h3">Tap any gauge for its history.</h3>
+          <p>The last 24 hours, 7 days or 30 days, with the target band, every dose and water change marked along the bottom, and the low, average, high and direction underneath.</p>
+          <div class="shot"><img src="assets/shots/trend-1280.webp" srcset="assets/shots/trend-1280.webp 1280w, assets/shots/trend-2560.webp 2560w" sizes="(max-width: 900px) 90vw, 520px" width="1280" height="800" loading="lazy" decoding="async"
+            alt="Alkalinity over 7 days: steady at about 8.4 dKH inside its 7.5 to 9.5 target band, with each day's doses and a water change marked along the bottom; low 8.3, average 8.4, high 8.4, stable"></div>
+        </article>
+        <article class="tile sand span-7 row" data-reveal>
+          <div class="txt">
+            <span class="tag">Weather</span>
+            <h3 class="h3">The weather, beside the reef.</h3>
+            <p>Outside, the local forecast, because a storm on the way is a power cut on the way. Inside, a room-air sensor watches the CO<sub>2</sub> the tank breathes — high room CO<sub>2</sub> pulls pH down — alongside temperature and humidity.</p>
+          </div>
+          <div class="shot"><img src="assets/shots/weather-420.webp" srcset="assets/shots/weather-420.webp 420w, assets/shots/weather-840.webp 840w" sizes="(max-width: 900px) 90vw, 340px" width="420" height="222" loading="lazy" decoding="async"
+            alt="The weather card: 71° and mostly clear, with the next four hours"></div>
+        </article>
+        <article class="tile lilac span-5" data-reveal style="--d:.08s">
+          <span class="tag">Maintenance</span>
+          <h3 class="h3">Reminders, ticked off with a tap.</h3>
+          <p>Filter socks, skimmer cup, water changes: due jobs show on the ticker along the bottom of the screen, and a tap ticks them off. Log a water change and its reminder resets too.</p>
+          <div class="shot"><img src="assets/shots/maint-577.webp" srcset="assets/shots/maint-577.webp 577w, assets/shots/maint-1154.webp 1154w" sizes="(max-width: 900px) 90vw, 440px" width="577" height="304" loading="lazy" decoding="async"
+            alt="The maintenance list: change filter sock due today, clean skimmer cup and water change in 5 days, Trident reagent refill in 15 days, calibrate pH probe in 60 days, each with a tick button"></div>
+        </article>
       </div>
     </div>
   </section>
 
-  <section id="faq">
-    <div class="section-head">
-      <span class="eyebrow">Questions</span>
-      <h2>The short answers.</h2>
-    </div>
-    <div class="faq">
-      <details><summary>Do I need an Apex?</summary><p>No, but it's the best case. With an Apex and Trident the numbers arrive on their own. Without a controller you type in your test-kit results: they color the gauges and go on the charts (typed results don't sound alarms). You still get ICP results, the dosing log, maintenance reminders and the weather.</p></details>
-      <details><summary>Does it need the internet?</summary><p>For the weather, registration, software updates and a remote-support session you start yourself. Your controller, your ReefBeat gear and the display talk over your own network; if the internet goes down the reef screen keeps working.</p></details>
-      <details><summary>Is there a subscription?</summary><p>No. You buy the display, it's yours, and it never needs a subscription. Software updates are free and install from the settings screen.</p></details>
-      <details><summary>Can I see it from my phone?</summary><p>Not yet. Viewing your tank from your phone is planned for after launch.</p></details>
-      <details><summary>What about my other gear?</summary><p>HYDROS and GHL are planned. If you run something else, tell us what — the list of what people own decides what comes after.</p></details>
-      <details><summary>When, and how much?</summary><p>Early 2027. One price, no subscription; the price is still to be announced. The launch list hears first, and hears about the introductory price.</p></details>
+  <section class="band" id="alerts">
+    <div class="wrap grid">
+      <div data-reveal>
+        <span class="eyebrow"><span class="n">02</span> Alerts</span>
+        <h2 class="h2" style="margin-top:18px">When something's wrong, <span class="soft">you'll know.</span></h2>
+        <p class="lede" style="margin-top:22px">When a reading from your controller leaves its range, a pop-up takes over the screen and the speakers sound.</p>
+        <ul class="points">
+          <li><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-bell"/></svg></span><span><b>Temperature and pH sound at any hour.</b> So does the controller itself going quiet.</span></li>
+          <li><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-moon"/></svg></span><span><b>Quiet hours for the slow movers.</b> The slower-moving readings wait out the quiet hours you set (10 pm to 7 am out of the box) and show without the sound.</span></li>
+          <li><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-hand"/></svg></span><span><b>One tap to acknowledge.</b> It retreats to the ticker along the bottom until it's fixed.</span></li>
+        </ul>
+      </div>
+      <div class="device" data-reveal style="--d:.1s">
+        <div class="screen"><img src="assets/shots/alert-1280.webp" srcset="assets/shots/alert-1280.webp 1280w, assets/shots/alert-2560.webp 2560w" sizes="(max-width: 900px) 90vw, 600px" width="1280" height="800" loading="lazy" decoding="async"
+          alt="A red alert over the dimmed dashboard: Temperature high, 80.4°F, target 77–79°F, just went out of range, with its trend and an I'm on it button"></div>
+      </div>
     </div>
   </section>
 
-  <section class="card cta">
-    <h2>Be first to hang one.</h2>
-    <p class="muted">Launch news, the introductory price, and a first look at the display on the wall.</p>
-    <div class="signup">
+  <section class="sec" id="chemistry">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="eyebrow"><span class="n">03</span> Chemistry</span>
+        <h2 class="h2">Chemistry that <span class="soft">means something.</span></h2>
+      </div>
+      <div class="pair">
+        <article class="tile mint" data-reveal>
+          <span class="tag">ICP results</span>
+          <h3 class="h3">Your lab's results, on dials.</h3>
+          <p>Paste your lab's results from your phone. Twenty-plus elements are shown against natural-seawater reference bands, with anything outside them flagged, and you see what it read before it saves.</p>
+          <div class="shot"><img src="assets/shots/icp-1280.webp" srcset="assets/shots/icp-1280.webp 1280w, assets/shots/icp-2560.webp 2560w" sizes="(max-width: 900px) 90vw, 560px" width="1280" height="800" loading="lazy" decoding="async"
+            alt="The ICP results screen: dial gauges for boron, calcium, potassium, magnesium, strontium, barium, iodine, bromine, fluorine and lithium, with barium flagged high and iodine low"></div>
+        </article>
+        <article class="tile sky" data-reveal style="--d:.08s">
+          <span class="tag">Dosing and water changes</span>
+          <h3 class="h3">Every dose and water change, in one place.</h3>
+          <p>Log doses and water changes on buttons named for what you actually use — two-part, Balling, kalkwasser, Red Sea Foundation, Triton Core7, ESV B-Ionic, All-For-Reef, Reef Moonshiners — and keep the whole history together.</p>
+          <div class="shot"><img src="assets/shots/dosing-1280.webp" srcset="assets/shots/dosing-1280.webp 1280w, assets/shots/dosing-2560.webp 2560w" sizes="(max-width: 900px) 90vw, 560px" width="1280" height="345" loading="lazy" decoding="async"
+            alt="The chemistry screen: the four Triton Core7 parts with today's dose and a week of doses as bars, and the last water change two days ago"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="works">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="eyebrow"><span class="n">04</span> Works with</span>
+        <h2 class="h2">It doesn't replace your controller. <span class="soft">It shows you what it knows.</span></h2>
+        <p class="lede">ReefGauge talks to the gear on your network directly, with no cloud in the middle.</p>
+      </div>
+      <div class="cards4">
+        <article class="card" data-reveal>
+          <span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-controller"/></svg></span>
+          <h3 class="h3">Neptune Apex</h3>
+          <p>Temperature, pH and salinity from your Apex probes, plus Trident and Trident NP results as they land — alkalinity, calcium, magnesium, nitrate and phosphate.</p>
+        </article>
+        <article class="card" data-reveal style="--d:.06s">
+          <span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-wave"/></svg></span>
+          <h3 class="h3">Red Sea ReefBeat</h3>
+          <p>Over your own network: ReefMat roll remaining and ReefRun pump state — skimmer cup full? You'll know. ReefDose, ReefATO+, ReefLED and ReefWave show their basic status.</p>
+        </article>
+        <article class="card" data-reveal style="--d:.12s">
+          <span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-flask"/></svg></span>
+          <h3 class="h3">Your ICP results</h3>
+          <p>Paste your lab's results from your phone, and see every element against its seawater reference band, with anything outside it flagged.</p>
+        </article>
+        <article class="card planned" data-reveal style="--d:.18s">
+          <span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-clock"/></svg></span>
+          <h3 class="h3">HYDROS &amp; GHL</h3>
+          <p>CoralVue HYDROS (through its official API, which needs the internet) and GHL ProfiLux 4 (over your network) are planned.</p>
+          <span class="badge">On the roadmap</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="setup">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="eyebrow"><span class="n">05</span> Setup</span>
+        <h2 class="h2">From the box to your reef. <span class="soft">No computer needed.</span></h2>
+      </div>
+      <ol class="steps">
+        <li data-reveal><h3 class="h3">Hang it</h3><p>Mount it on the wall beside the tank and plug it in. It boots straight to your reef: no desktop, no login, no cursor.</p></li>
+        <li data-reveal style="--d:.08s"><h3 class="h3">Set it up by touch</h3><p>Wi-Fi, location, tank name, controller and equipment, in about five minutes, on the screen itself.</p></li>
+        <li data-reveal style="--d:.16s"><h3 class="h3">Glance</h3><p>Every number, every trend, and an alert that's hard to miss when something is wrong.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="promises">
+    <div class="wrap">
+      <div class="promise" data-reveal>
+        <div class="head center">
+          <span class="eyebrow"><span class="n">06</span> Ownership</span>
+          <h2 class="h2">One price. <span class="soft">No subscription.</span></h2>
+        </div>
+        <div class="cards4">
+          <article class="card"><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-tag"/></svg></span><h3 class="h3">No subscription</h3><p>You buy the display, it's yours, and it never needs a subscription.</p></article>
+          <article class="card"><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-refresh"/></svg></span><h3 class="h3">Free updates</h3><p>Software updates are free and install from the settings screen.</p></article>
+          <article class="card"><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-home"/></svg></span><h3 class="h3">Readings stay home</h3><p>Your tank's numbers stay on your own network unless you start a support session. <a href="privacy.html">What leaves the display</a></p></article>
+          <article class="card"><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-offline"/></svg></span><h3 class="h3">Works offline</h3><p>Your controller, your ReefBeat gear and the display talk over your own network. If the internet goes down, the reef screen keeps working.</p></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="display">
+    <div class="wrap wall">
+      <div class="device sm" data-reveal>
+        <div class="screen"><img src="assets/shots/drift-1280.webp" srcset="assets/shots/drift-1280.webp 1280w, assets/shots/drift-2560.webp 2560w" sizes="(max-width: 900px) 90vw, 560px" width="1280" height="800" loading="lazy" decoding="async"
+          alt="The home screen with alkalinity drifting low: its gauge and trend in amber at 7.3 dKH, an Alk low badge on the tank card, and the other seven readings in range"></div>
+      </div>
+      <div>
+        <div class="head" data-reveal style="margin-bottom:40px">
+          <span class="eyebrow"><span class="n">07</span> The display</span>
+          <h2 class="h2">Made for the wall, <span class="soft">not the desk.</span></h2>
+        </div>
+        <div class="facts" data-reveal style="--d:.08s">
+          <div class="fact"><b>10-inch touchscreen</b><span>Mounted on the wall beside the tank. Full hardware details at launch.</span></div>
+          <div class="fact"><b>Speakers</b><span>Alarms have their own volume, and it can't be turned down to nothing.</span></div>
+          <div class="fact"><b>A ticker along the bottom</b><span>Anything that needs attention and the jobs that are due, scrolling past.</span></div>
+          <div class="fact"><b>Your tank, by name</b><span>The name you give your tank heads the screen.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <div class="wrap">
+      <div class="head center" data-reveal>
+        <span class="eyebrow">Questions</span>
+        <h2 class="h2">The short answers.</h2>
+      </div>
+      <div class="faq" data-reveal>
+        <details><summary>Do I need an Apex?<span class="pm"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></span></summary><p>No, but it's the best case. With an Apex and Trident the numbers arrive on their own. Without a controller you type in your test-kit results: they color the gauges and go on the charts (typed results don't sound alarms). You still get ICP results, the dosing log, maintenance reminders and the weather.</p></details>
+        <details><summary>Does it need the internet?<span class="pm"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></span></summary><p>For the weather, registration, software updates and a remote-support session you start yourself. Your controller, your ReefBeat gear and the display talk over your own network; if the internet goes down the reef screen keeps working.</p></details>
+        <details><summary>Is there a subscription?<span class="pm"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></span></summary><p>No. You buy the display, it's yours, and it never needs a subscription. Software updates are free and install from the settings screen.</p></details>
+        <details><summary>Can I see it from my phone?<span class="pm"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></span></summary><p>Not yet. Viewing your tank from your phone is planned for after launch.</p></details>
+        <details><summary>What about my other gear?<span class="pm"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></span></summary><p>HYDROS and GHL are planned. If you run something else, tell us what — the list of what people own decides what comes after.</p></details>
+        <details><summary>When, and how much?<span class="pm"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></span></summary><p>Early 2027. One price, no subscription; the price is still to be announced. The launch list hears first, and hears about the introductory price.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="join" aria-labelledby="join-title">
+    <img class="mark" src="assets/icon.png" alt="" width="64" height="64" data-reveal>
+    <h2 class="h2" id="join-title" data-reveal>Be first to hang one.</h2>
+    <p class="lede" data-reveal style="--d:.06s">Launch news, the introductory price, and a first look at the display on the wall.</p>
+    <div class="signup" data-reveal style="--d:.12s">
       <form action="https://buttondown.com/api/emails/embed-subscribe/reefgauge" method="post" target="_blank">
-        <label for="email2" style="position:absolute;left:-9999px">Email address</label>
+        <label for="email2" class="sr-only">Email address</label>
         <input id="email2" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
-        <button class="btn" type="submit">Tell me when it ships</button>
+        <button class="btn" type="submit">Tell me when it ships <span class="arrow"><svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></span></button>
       </form>
       <small>We'll email you once to confirm. Launch news and the introductory price only; unsubscribe in one click. <a href="privacy.html">Privacy</a></small>
     </div>
   </section>
 
-  <footer>
-    <div class="row">
-      <span>© 2026 ReefGauge · Richmond, Virginia</span>
-      <span><a href="privacy.html">Privacy</a> · <a href="mailto:admin@reefgauge.com">admin@reefgauge.com</a></span>
-    </div>
-    <p>Neptune Apex and Trident are trademarks of Neptune Systems. ReefBeat, ReefRun, ReefMat, ReefDose and ReefATO+ are trademarks of Red Sea. HYDROS is a trademark of CoralVue. ProfiLux is a trademark of GHL. Other product and lab names are trademarks of their owners. ReefGauge is independent and is not affiliated with or endorsed by any of them; compatibility means ReefGauge reads their equipment or results. Weather data by <a href="https://open-meteo.com/">Open-Meteo.com</a>.</p>
-  </footer>
+</main>
 
-</div>
+<footer class="foot">
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="#top"><img src="assets/icon.png" alt="" width="34" height="34">ReefGauge</a>
+      <nav aria-label="Footer">
+        <a href="#glance">At a glance</a>
+        <a href="#display">The display</a>
+        <a href="#works">Works with</a>
+        <a href="#faq">Questions</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="mailto:admin@reefgauge.com">admin@reefgauge.com</a>
+      </nav>
+    </div>
+    <p class="legal">© 2026 ReefGauge · Richmond, Virginia</p>
+    <p class="legal">Neptune Apex and Trident are trademarks of Neptune Systems. ReefBeat, ReefRun, ReefMat, ReefDose and ReefATO+ are trademarks of Red Sea. HYDROS is a trademark of CoralVue. ProfiLux is a trademark of GHL. Other product and lab names are trademarks of their owners. ReefGauge is independent and is not affiliated with or endorsed by any of them; compatibility means ReefGauge reads their equipment or results. Weather data by <a href="https://open-meteo.com/">Open-Meteo.com</a>.</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+  const items = document.querySelectorAll('[data-reveal]')
+  if (reduce || !('IntersectionObserver' in window)) items.forEach(el => el.classList.add('in'))
+  else {
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) }
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0 })
+    // The first screen does not wait for scrolling.
+    items.forEach(el => el.closest('.hero') ? requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('in'))) : io.observe(el))
+  }
+
+  const nav = document.getElementById('nav')
+  const tilt = document.getElementById('tilt')
+  let ticking = false
+  const update = () => {
+    ticking = false
+    const y = window.scrollY
+    nav.classList.toggle('scrolled', y > 12)
+    if (!reduce && tilt) {
+      if (innerWidth > 760) {
+        const p = Math.min(1, y / 480)
+        tilt.style.transform = `rotateX(${(14 * (1 - p)).toFixed(2)}deg) scale(${(0.94 + 0.06 * p).toFixed(3)})`
+      } else tilt.style.transform = ''
+    }
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update) } }, { passive: true })
+  addEventListener('resize', update)
+  const menu = document.querySelector('.menu')
+  if (menu) menu.addEventListener('click', e => { if (e.target.closest('a')) menu.removeAttribute('open') })
+  update()
+})()
+</script>
 </body>
 </html>

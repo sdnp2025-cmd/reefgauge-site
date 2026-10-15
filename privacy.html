@@ -2,43 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy — ReefGauge</title>
 <meta name="description" content="What ReefGauge keeps, what leaves the display, and who holds it for us.">
 <link rel="icon" href="assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/icon.png">
-<style>
-  @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 800; font-display: swap; src: url('assets/fonts/Outfit-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-  @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 800; font-display: swap; src: url('assets/fonts/Outfit-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-  :root { --ink: #10233a; --ink-2: #3e5570; --accent: #5b4bc4; --bg-a: #eef4fb; --bg-b: #dbe8f6; --bg-c: #e9e4f6; }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; color: var(--ink);
-    font-family: 'Outfit', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 17px; line-height: 1.6;
-    background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%) fixed;
-  }
-  a { color: var(--accent); }
-  main { max-width: 760px; margin: 0 auto; padding: 22px 22px 60px; }
-  .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); font-weight: 800; font-size: 20px; }
-  .brand img { width: 40px; height: 40px; border-radius: 9px; }
-  h1 { font-size: clamp(32px, 5vw, 44px); font-weight: 800; letter-spacing: -.015em; margin: 28px 0 6px; line-height: 1.1; }
-  h2 { font-size: 22px; font-weight: 800; margin: 34px 0 8px; }
-  p, li { color: var(--ink-2); }
-  ul { padding-left: 22px; display: grid; gap: 6px; }
-  .card { background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.9); border-radius: 18px; padding: 18px 22px; margin-top: 18px; }
-  .card p { margin: 0; }
-  footer { margin-top: 40px; font-size: 14px; color: var(--ink-2); }
-</style>
+<link rel="preload" href="assets/fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
-<main>
-  <a class="brand" href="./"><img src="assets/icon.png" alt="" width="40" height="40"> ReefGauge</a>
+<body class="page">
+<header class="page-top">
+  <div class="wrap" style="display:flex;flex-wrap:wrap;row-gap:12px;justify-content:space-between;align-items:center;gap:16px">
+    <a class="brand" href="./"><img src="assets/icon.png" alt="" width="34" height="34">ReefGauge</a>
+    <a class="btn ghost small" href="./">Home</a>
+  </div>
+</header>
+<main class="doc">
 
   <h1>Privacy</h1>
   <p>Effective 14 October 2026.</p>
 
-  <div class="card">
-    <p><b>The short version.</b> Your tank's readings stay on your own network unless you start a support session or turn on phone alerts. To register a display we keep your name, email and phone so we can support it, and those go only to our own server and our office computer. We never sell anything. Everything that leaves the display, and who receives it, is listed below.</p>
+  <div class="summary">
+    <p><b>The short version.</b> Your tank's readings stay on your own network unless you start a support session (or, on the Raspberry Pi version, turn on phone alerts). To register a display we keep your name, email and phone so we can support it, and those go only to our own server and our office computer. We never sell anything. Everything that leaves the display, and who receives it, is listed below.</p>
   </div>
 
   <h2>This website</h2>
